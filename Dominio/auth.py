@@ -1,26 +1,20 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from bson.objectid import ObjectId
-
-# Importa los DAO y agentes según la estructura de tu proyecto
 from Persistencia.DAOS.UserDAO import UserDAO
 from Persistencia.AgenteBD import MongoDBAgent
 
-# Si necesitas usar el agente de Mongo, puedes instanciarlo (o importarlo desde otro módulo central)
 mongo_agent = MongoDBAgent()
-
 auth_bp = Blueprint('auth', __name__)
 
-# -------------------------------
-# GET /login - Página de login
-# -------------------------------
+@auth_bp.route('/')
+def index():
+    return render_template('index.html')
+
 @auth_bp.route('/login', methods=['GET'])
 def login_page():
     return render_template('loginRegister.html')
 
-# -------------------------------
-# POST /login - Proceso de autenticación
-# -------------------------------
 @auth_bp.route('/login', methods=['POST'])
 def login():
     email = request.form.get('email')
@@ -39,14 +33,14 @@ def login():
             session['user_id'] = str(usuario["_id"])
             session['user_name'] = usuario.get("name")
             flash("Inicio de sesión exitoso!")
-            return redirect(url_for('propietarios.Propietarios'))  # Asegúrate de que este endpoint exista
+            return redirect(url_for('auth.index'))  # Or redirect to a dashboard
         else:
             flash("Contraseña incorrecta.")
             return redirect(url_for('auth.login_page'))
+    else:
+        flash("El correo no está registrado.")
+        return redirect(url_for('auth.login_page'))
 
-# -------------------------------
-# POST /register - Registro de nuevos usuarios
-# -------------------------------
 @auth_bp.route('/register', methods=['POST'])
 def register():
     name = request.form.get('name')
@@ -66,7 +60,6 @@ def register():
         "name": name,
         "email": email,
         "pass": hashed_password,
-        "type": "Tourist",
         "blocked": False,
     }
     UserDAO.insertar_dato(nuevo_usuario)
@@ -76,21 +69,15 @@ def register():
         session['user_id'] = str(usuario["_id"])
         session['user_name'] = usuario.get("name")
         flash("Registro exitoso!")
+        return redirect(url_for('auth.index'))  # Or redirect to a dashboard
     else:
         flash("Error en el registro")
         return redirect(url_for('auth.login_page'))
 
-
-# -------------------------------
-# GET /UserBlock - Página para usuarios bloqueados
-# -------------------------------
 @auth_bp.route('/UserBlock', methods=['GET'])
 def UserBlock():
     return render_template('UserBlocked.html')
 
-# -------------------------------
-# GET /users - Listado de todos los usuarios (gestión de usuarios)
-# -------------------------------
 @auth_bp.route('/users', methods=['GET'])
 def users():
     usuarios = UserDAO.obtener_todos()

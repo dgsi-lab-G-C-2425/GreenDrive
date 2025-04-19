@@ -4,7 +4,7 @@ import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from dotenv import load_dotenv
-from flask import Flask
+from flask import Flask, redirect, url_for
 from flask.json.provider import DefaultJSONProvider
 from bson.objectid import ObjectId
 
@@ -32,16 +32,16 @@ STATIC_DIR = os.path.join(BASE_DIR, '..', 'Presentacion', 'static')
 app = Flask(__name__, template_folder=TEMPLATE_DIR, static_folder=STATIC_DIR)
 app.json_provider_class = CustomJSONProvider
 app.json = app.json_provider_class(app)
-app.json_provider_class = CustomJSONProvider
-# Registrar el filtro en Jinja2
 app.jinja_env.filters['format_number'] = format_number
-# Configurar clave secreta para sesiones y mensajes flash
 app.secret_key = os.getenv("FLASK_SECRET_KEY")
 
 
 # Registrar blueprints
 app.register_blueprint(auth_bp)
 
+@app.route('/')
+def home():
+    return redirect(url_for('auth.login_page'))
 
 # Conectar a MongoDB
 mongo_agent = MongoDBAgent()

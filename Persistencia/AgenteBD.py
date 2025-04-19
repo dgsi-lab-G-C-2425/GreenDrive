@@ -13,7 +13,7 @@ class MongoDBAgent:
         load_dotenv()
         password = os.getenv("BBDD_PASSWD")
         self.uri = f"mongodb+srv://deliveringsolutionssl:{password}@dgsi.vfxieds.mongodb.net/?retryWrites=true&w=majority&appName=DGSI"
-        self.db_name = "turismo_db"
+        self.db_name = "GreenDrive"
         self.client = None
         self.db = None
         self.connect()
