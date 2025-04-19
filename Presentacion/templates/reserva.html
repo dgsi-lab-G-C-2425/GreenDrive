@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Reserva – GreenDrive</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet"
+        href="{{ url_for('static', filename='css/loginRegister.css') }}">
+  <link rel="stylesheet"
+        href="{{ url_for('static', filename='css/reserva.css') }}">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'
+        rel='stylesheet'>
+</head>
+<body>
+
+  <!-- Navbar (mismo estilo) -->
+  <nav class="navbar">
+    <div class="nav-logo">GreenDrive</div>
+    <ul class="nav-links">
+      <li><a href="/">Inicio</a></li>
+      <li><a href="/contacto">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <!-- Contenedor central -->
+  <div class="container reserva-container">
+    <form id="reservaForm" class="form-reserva">
+      <h1>Nueva Reserva</h1>
+
+      <!-- Vehículo -->
+      <div class="input-box">
+        <select id="vehiculo" required>
+          <option value="" disabled selected>Selecciona vehículo</option>
+          <option value="6611a3c9f7b8eeb6dd000001">Scooter #1</option>
+          <option value="6611a3c9f7b8eeb6dd000002">Scooter #2</option>
+        </select>
+        <i class='bx bxs-car'></i>
+      </div>
+
+      <!-- Fechas -->
+      <div class="input-box">
+        <input type="datetime-local" id="fechaInicio" required>
+        <i class='bx bxs-calendar'></i>
+      </div>
+      <div class="input-box">
+        <input type="datetime-local" id="fechaFin" required>
+        <i class='bx bxs-calendar'></i>
+      </div>
+
+      <!-- Ubicación -->
+      <div class="input-box">
+        <input type="text" id="direccion" placeholder="Dirección de recogida" required>
+        <i class='bx bxs-map'></i>
+      </div>
+
+      <button type="submit" class="btn">Reservar</button>
+
+      <!-- Toast -->
+      <div id="toast" class="toast hidden"></div>
+    </form>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>© 2025 GreenDrive</p>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/reserva.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+/* Extiende la paleta global definida en loginRegister.css */
+
+.reserva-container{
+    width:500px;
+    height:auto;
+    padding:50px 60px;
+}
+
+.form-reserva .input-box{
+    margin:20px 0;
+}
+
+.form-reserva select,
+.form-reserva input{
+    width:100%;
+    padding:13px 50px 13px 20px;
+    background:#eee;
+    border-radius:8px;
+    border:none;
+    outline:none;
+    font-size:16px;
+    color:var(--gray-700);
+    font-weight:500;
+}
+
+.form-reserva .input-box i{
+    position:absolute;
+    right:20px;
+    top:50%;
+    transform:translateY(-50%);
+    font-size:20px;
+}
+
+.toast{
+    position:fixed;
+    top:90px;
+    right:30px;
+    padding:14px 22px;
+    border-radius:8px;
+    background:var(--gray-700);
+    color:#fff;
+    font-weight:500;
+    box-shadow:0 0 10px rgba(0,0,0,.1);
+    transition:opacity .3s ease;
+}
+
+.toast.hidden{opacity:0;pointer-events:none;}
+.toast.success{background:#2e7d32;}
+.toast.error{background:#c62828;}

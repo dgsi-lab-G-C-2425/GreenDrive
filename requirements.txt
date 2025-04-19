@@ -5,3 +5,5 @@ tabulate
 pandas
 python-dotenv
 flask
+dnspython
+pydantic>=2.6
