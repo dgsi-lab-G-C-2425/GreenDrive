@@ -12,6 +12,7 @@ from Persistencia.AgenteBD import MongoDBAgent
 
 from auth import auth_bp
 from vehicle import vehicle_bp
+from map import map_bp
 from Dominio.utils import format_number
 
 dotenv_path = os.path.join(os.path.dirname(__file__), '../.env')
@@ -40,6 +41,7 @@ app.secret_key = os.getenv("FLASK_SECRET_KEY")
 # Registrar blueprints
 app.register_blueprint(auth_bp)
 app.register_blueprint(vehicle_bp)
+app.register_blueprint(map_bp, url_prefix='/map')
 
 @app.route('/')
 def home():
