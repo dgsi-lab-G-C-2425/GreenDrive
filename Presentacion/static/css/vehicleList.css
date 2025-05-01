@@ -1,10 +1,125 @@
+/* ---------- Paleta centralizada (Colores fríos premium) ---------- */
+:root {
+    /* Fondos oscuros fríos con matiz azul profundo */
+    --bg-darkest: #0d1117;  /* negro azulado casi total */
+    --bg-darker:  #161b22;  /* gris marino muy oscuro */
+    --bg-dark:    #21262d;  /* gris antracita frío */
+    --bg-medium:  #2e333a;  /* gris oscuro suave */
+    --bg-light:   #58a6ff;  /* azul hielo destacable */
+
+    /* Tonos de texto */
+    --text-primary:   #c9d1d9; /* gris azulado claro */
+    --text-secondary: #8b949e; /* gris azulado medio */
+    --text-muted:     #6e7781; /* gris azulado apagado */
+    --text-black:     #000000; 
+
+    /* Acentos y resaltados metálicos */
+    --accent-ice:     #79c0ff; /* azul hielo metálico */
+    --accent-silver:  #adb5bd; /* plateado suave */
+
+    /* Sombras y delineados sutiles */
+    --shadow-color:   rgba(0, 0, 0, 0.7);
+    --border-light:   rgba(201, 209, 217, 0.2);
+    --border-dark:    rgba(0, 0, 0, 0.4);
+}
+
+/* ---------- Reset básico ---------- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    text-decoration: none;
+    list-style: none;
+}
+
+/* ---------- Configuración global ---------- */
+html, body {
+    width: 100%;
+    min-height: 100vh;
+    /* Se elimina height: 100vh y overflow: hidden */
+    display: flex;
+    flex-direction: column;
+    color: var(--text-black);
+}
+
+/* ---------- NAVBAR FIJO ---------- */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--bg-darker);
+    padding: 1rem 2rem; /* Aumentado para centrar verticalmente */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 8px var(--shadow-color); /* Sombra más sutil */
+    z-index: 999;
+    border-bottom: 1px solid var(--accent-ice); /* Borde inferior más fino */
+}
+
+/* Agrega un margen superior al contenedor para no quedar tapado por el navbar */
+.container {
+    margin-top: 100px; /* Ajusta el valor según la altura del navbar */
+}
+
+.nav-logo {
+    font-size: 1.3rem; /* Se reduce ligeramente el tamaño de la fuente */
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.nav-links {
+    display: flex;
+    gap: 1.5rem; /* Menor espacio entre link para mayor cohesión */
+    margin-left: auto;
+}
+
+.nav-links li {
+    display: flex;
+    align-items: center;
+}
+
+.nav-links li a {
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 1rem; /* Reducido para mayor delicadeza */
+    padding: 0.3rem 0.5rem; /* Padding ajustado */
+    transition: background-color 0.3s ease; /* Removido transition de color */
+    border-radius: 15px;
+    position: relative;
+    top: 10px; /* Ajustado para centrar verticalmente */
+}
+
+.nav-links li a:hover {
+    color: var(--text-black);
+    background-color: #fff;
+    text-decoration: none;
+}
+
+/* ---------- CONTENEDOR MAPA ---------- */
+.map {
+    text-align: center;
+}
+
+/* ---------- CONTENEDOR CENTRADO ---------- */
 .vehicle-card {
     max-width: 250px;
     margin: auto;
-    border: none;
+    border: 5px solid var(--border-light);
     transition: transform 0.3s, box-shadow 0.3s;
     margin-bottom: 30px;
     border-radius: 20px;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.vehicle-card.show {
+    opacity: 1;
+    transform: translateY(0);
 }
 .vehicle-card:hover {
     transform: scale(1.05);
@@ -23,4 +138,24 @@
     font-size: 1.1em;
     border-top: 1px solid #e0e0e0;
     border-radius: 0 0 20px 20px;
+}
+
+/* ---------- FOOTER (estilo modificado para sticky footer) ---------- */
+.footer {
+    margin-top: auto;
+    text-align: center;
+    padding: 1rem;
+    background-color: var(--bg-darkest);
+    color: var(--text-primary);
+    font-size: .9rem;
+    /* Se eliminan position: fixed, z-index, left, bottom y width */
+}
+.footer p {
+    margin: 0;
+}
+.footer p a {
+    color: var(--text-primary);
+}
+.footer p a:hover {
+    text-decoration: underline;
 }

@@ -9,7 +9,24 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/vehicleList.css') }}">
 </head>
 <body>
-    <div class="container mt-5">
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-logo">GreenDrive</div>
+        <ul class="nav-links">
+            <li><a href="/">Inicio</a></li>
+            <li><a href="/contacto">Contacto</a></li>
+        </ul>
+    </nav>
+
+    <!-- Mapa Ismael -->
+     <section class="container map">
+        <h1>Mapa de Ismael</h1>
+        
+     </section>
+
+    <!-- Contenedor del listado de vehículos -->
+    <section class="container">
         <h1 class="text-center mb-4">Listado de Vehículos</h1>
         <div class="row">
             {% for vehiculo in vehiculos %}
@@ -26,9 +43,15 @@
             </div>
             {% endif %}
         </div>
-    </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2025 GreenDrive | <a href="#">Política de Privacidad</a> | <a href="#">Términos de Uso</a></p>
+    </footer>
 
     <!-- Scripts de Bootstrap -->
+    <script src="/static/js/vehicleList.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
