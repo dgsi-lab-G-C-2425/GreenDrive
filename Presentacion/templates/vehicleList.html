@@ -15,7 +15,7 @@
             {% for vehiculo in vehiculos %}
             <div class="col-md-4">
                 <div class="card vehicle-card">
-                    <img src="{{ url_for('static', filename='image/vehiculo.png') }}" alt="Vehículo {{ loop.index }}">
+                    <img src="{{ url_for('static', filename='images/vehicles/' + vehiculo.image) }}" alt="{{ vehiculo.nombre }}" width="200">
                     <div class="vehicle-name">{{ vehiculo.modelo }}</div>
                 </div>
             </div>
