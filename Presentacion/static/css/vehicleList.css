@@ -1,0 +1,26 @@
+.vehicle-card {
+    max-width: 250px;
+    margin: auto;
+    border: none;
+    transition: transform 0.3s, box-shadow 0.3s;
+    margin-bottom: 30px;
+    border-radius: 20px;
+}
+.vehicle-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+.vehicle-card img {
+    width: 100%;
+    max-height: 150px;
+    object-fit: cover;
+}
+.vehicle-name {
+    background-color: #f8f9fa;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.1em;
+    border-top: 1px solid #e0e0e0;
+    border-radius: 0 0 20px 20px;
+}
