@@ -82,6 +82,24 @@
       } else {
         alert("Tu navegador no soporta Geolocation.");
       }
+      
+      // dentro de initMap(), reemplaza el bloque de fetch(...) por:
+      fetch('/map/data')
+        .then(res => res.json())
+        .then(vehicles => {
+          vehicles.forEach(v => {
+            new google.maps.Marker({
+              position: { lat: v.lat, lng: v.lng },
+              map: map,
+              icon: {
+                url: v.icon,
+                scaledSize: new google.maps.Size(50, 50)
+              },
+              title: v.title
+            });
+          });
+        })
+        .catch(err => console.error('Error cargando vehículos:', err));
     }
   </script>
 </head>
