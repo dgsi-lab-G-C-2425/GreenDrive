@@ -9,7 +9,7 @@ auth_bp = Blueprint('auth', __name__)
 
 @auth_bp.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('loginRegister.html')
 
 @auth_bp.route('/login', methods=['GET'])
 def login_page():
@@ -33,7 +33,8 @@ def login():
             session['user_id'] = str(usuario["_id"])
             session['user_name'] = usuario.get("name")
             flash("Inicio de sesión exitoso!")
-            return redirect(url_for('auth.index'))  # Or redirect to a dashboard
+            print("Usuario autenticado:", usuario)
+            return redirect(url_for('map.index'))
         else:
             flash("Contraseña incorrecta.")
             return redirect(url_for('auth.login_page'))
@@ -69,7 +70,7 @@ def register():
         session['user_id'] = str(usuario["_id"])
         session['user_name'] = usuario.get("name")
         flash("Registro exitoso!")
-        return redirect(url_for('auth.index'))  # Or redirect to a dashboard
+        return redirect(url_for('map.index'))  # Or redirect to a dashboard
     else:
         flash("Error en el registro")
         return redirect(url_for('auth.login_page'))
