@@ -41,12 +41,24 @@
     <section class="container">
         <div class="row">
             {% for vehiculo in vehiculos %}
-            <div class="col-md-4">
-                <div class="card vehicle-card">
-                    <img src="{{ url_for('static', filename='images/vehicles/' + vehiculo.tipo) + '.png' }}" alt="{{ vehiculo.nombre }}" width="200">
-                    <div class="vehicle-name">{{ vehiculo.modelo }}</div>
+                {% if vehiculo.estado == 'disponible' %}
+                <div class="col-md-4">
+                    <div class="card vehicle-card">
+                        <img src="{{ url_for('static', filename='images/vehicles/' + vehiculo.tipo) + '.png' }}" alt="{{ vehiculo.nombre }}" width="200">
+                        <div class="vehicle-name">{{ vehiculo.modelo }}</div>
+                        <div class="expanded-details">
+                            <h3>Reservar Vehículo</h3>
+                            <form class="reservationForm">
+                                <div class="form-group">Matricula: {{ vehiculo.matricula }}</div>
+                                <div class="form-group">Bateria: {{ vehiculo.bateria }}%</div>
+                                <div class="form-group">Coste: €</div>
+                                <!-- Puedes agregar más campos según sea necesario -->
+                                <button type="submit" class="btn btn-primary">Reservar Vehículo</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-            </div>
+                {% endif %}
             {% endfor %}
             {% if not vehiculos %}
             <div class="col-12">
@@ -60,24 +72,6 @@
     <footer class="footer">
         <p>© 2025 GreenDrive | <a href="#">Política de Privacidad</a> | <a href="#">Términos de Uso</a></p>
     </footer>
-
-    <!-- Modal Emergente para Reservación -->
-    <div class="modal-overlay" id="vehicleModal">
-        <div class="modal-content">
-            <span class="modal-close" id="modalClose">&times;</span>
-            <div class="modal-body">
-                <h3>Reservar Vehículo</h3>
-                <form id="reservationForm">
-                    <div class="form-group">
-                        <label for="nombre">Nombre</label>
-                        <input type="text" id="nombre" class="form-control" placeholder="Ingrese su nombre" required>
-                    </div>
-                    <!-- Puedes agregar más campos según sea necesario -->
-                    <button type="submit" class="btn btn-primary">Reservar Vehículo</button>
-                </form>
-            </div>
-        </div>
-    </div>
 
     <!-- Scripts -->
     <!-- Google Maps API -->

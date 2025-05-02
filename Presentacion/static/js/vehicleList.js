@@ -16,24 +16,20 @@ document.addEventListener("DOMContentLoaded", function() {
         observer.observe(card);
     });
 
-    // Gestión del modal emergente
-    const modalOverlay = document.getElementById('vehicleModal');
-    const modalClose = document.getElementById('modalClose');
-
+    // Gestión de la expansión de la tarjeta
     vehicleCards.forEach(card => {
-        card.addEventListener('click', () => {
-            modalOverlay.classList.add('show');
+        card.addEventListener('click', (e) => {
+            // Evitar que al hacer clic en el formulario se cierre la tarjeta
+            if(e.target.closest('.reservationForm')) return;
+            
+            // Si ya está expandida, la colapsa
+            if(card.classList.contains('expanded')){
+                card.classList.remove('expanded');
+            } else {
+                // Colapsa cualquier tarjeta expandida
+                vehicleCards.forEach(c => c.classList.remove('expanded'));
+                card.classList.add('expanded');
+            }
         });
-    });
-
-    modalClose.addEventListener('click', () => {
-        modalOverlay.classList.remove('show');
-    });
-
-    // Cierra el modal si se hace clic fuera del contenido
-    modalOverlay.addEventListener('click', (e) => {
-        if(e.target === modalOverlay) {
-            modalOverlay.classList.remove('show');
-        }
     });
 });
