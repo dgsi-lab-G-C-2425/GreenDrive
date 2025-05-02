@@ -104,6 +104,18 @@ html, body {
 .map {
     text-align: center;
 }
+#map {
+    height: 400px; /* Altura fija para el mapa */
+    width: 100%;
+    margin-bottom: 10px; /* Espacio debajo del mapa */
+}
+.map-container {
+    background: #fff; /* Fondo blanco para mejor visibilidad */
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Sombra para destacar */
+    border-radius: 15px;
+    margin-bottom: -50px; /* Espacio entre el mapa y el listado de vehículos */
+}
 
 /* ---------- CONTENEDOR CENTRADO ---------- */
 .vehicle-card {
