@@ -18,4 +18,4 @@ def vehicle_list():
     if vehiculos is None:
         flash("No se encontraron vehículos en la base de datos.", "error")
         return redirect(url_for('vehiculo.index'))
-    return render_template('vehicleList.html', vehiculos=vehiculos)
+    return render_template('vehicleList.html', vehiculos=vehiculos, google_api_key=os.getenv('GOOGLE_API_KEY'))

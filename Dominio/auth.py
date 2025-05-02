@@ -34,7 +34,7 @@ def login():
             session['user_name'] = usuario.get("name")
             flash("Inicio de sesión exitoso!")
             print("Usuario autenticado:", usuario)
-            return redirect(url_for('map.index'))
+            return redirect(url_for('vehiculo.vehicle_list'))  # Or redirect to a dashboard
         else:
             flash("Contraseña incorrecta.")
             return redirect(url_for('auth.login_page'))
@@ -70,7 +70,7 @@ def register():
         session['user_id'] = str(usuario["_id"])
         session['user_name'] = usuario.get("name")
         flash("Registro exitoso!")
-        return redirect(url_for('map.index'))  # Or redirect to a dashboard
+        return redirect(url_for('vehiculo.vehicle_list'))  # Or redirect to a dashboard
     else:
         flash("Error en el registro")
         return redirect(url_for('auth.login_page'))
