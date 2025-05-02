@@ -1,4 +1,4 @@
-// Vehicle List Animation
+// Vehicle List Animation y gestión del modal
 document.addEventListener("DOMContentLoaded", function() {
     const vehicleCards = document.querySelectorAll('.vehicle-card');
     const observer = new IntersectionObserver(entries => {
@@ -14,5 +14,26 @@ document.addEventListener("DOMContentLoaded", function() {
     });
     vehicleCards.forEach(card => {
         observer.observe(card);
+    });
+
+    // Gestión del modal emergente
+    const modalOverlay = document.getElementById('vehicleModal');
+    const modalClose = document.getElementById('modalClose');
+
+    vehicleCards.forEach(card => {
+        card.addEventListener('click', () => {
+            modalOverlay.classList.add('show');
+        });
+    });
+
+    modalClose.addEventListener('click', () => {
+        modalOverlay.classList.remove('show');
+    });
+
+    // Cierra el modal si se hace clic fuera del contenido
+    modalOverlay.addEventListener('click', (e) => {
+        if(e.target === modalOverlay) {
+            modalOverlay.classList.remove('show');
+        }
     });
 });
