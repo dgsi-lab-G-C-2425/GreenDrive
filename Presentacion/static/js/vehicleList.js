@@ -58,7 +58,10 @@ document.addEventListener("DOMContentLoaded", function() {
         fetch(`/vehiculos/reservar`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ matricula: currentMatricula })
+            body: JSON.stringify({ 
+                matricula: currentMatricula,
+                id_usuario: userId   // ahora se envía el id de usuario
+            })
         })
         .then(res => res.json())
         .then(data => {

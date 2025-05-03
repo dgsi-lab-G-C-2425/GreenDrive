@@ -7,6 +7,9 @@
     <!-- Bootstrap CDN para estilos elegantes -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/vehicleList.css') }}">
+    <script>
+      const userId = "{{ id_usuario or '' }}";
+    </script>
 </head>
 <body>
 
