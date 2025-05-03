@@ -25,7 +25,6 @@ class VehiculoDAO:
     def actualizar_dato(filtro, nuevo_valor):
         # registrar petición y resultado
         result = mongoDBAgent.update_one(VehiculoDAO.COLLECTION, filtro, { "$set": nuevo_valor })
-        print(f"[DAO] actualizar_dato filtro={filtro}, set={nuevo_valor}, matched={getattr(result, 'matched_count', None)}, modified={getattr(result, 'modified_count', None)}")
         return result
 
     @staticmethod
