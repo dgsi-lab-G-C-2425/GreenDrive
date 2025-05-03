@@ -23,8 +23,9 @@ class VehiculoDAO:
 
     @staticmethod
     def actualizar_dato(filtro, nuevo_valor):
-        # Usar pipeline de actualización para aplicar el $set
-        return mongoDBAgent.update_one(VehiculoDAO.COLLECTION, filtro, [ { "$set": nuevo_valor } ])
+        # registrar petición y resultado
+        result = mongoDBAgent.update_one(VehiculoDAO.COLLECTION, filtro, { "$set": nuevo_valor })
+        return result
 
     @staticmethod
     def borrar_dato(filtro):

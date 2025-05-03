@@ -7,19 +7,9 @@
     <!-- Bootstrap CDN para estilos elegantes -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/vehicleList.css') }}">
-    <style>
-        #map {
-            height: 400px; /* Altura fija para el mapa */
-            width: 100%;
-            margin-bottom: 20px; /* Espacio debajo del mapa */
-        }
-        .map-container {
-            background: #fff; /* Fondo blanco para mejor visibilidad */
-            padding: 10px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Sombra para destacar */
-            border-radius: 15px;
-        }
-    </style>
+    <script>
+      const userId = "{{ id_usuario or '' }}";
+    </script>
 </head>
 <body>
 
@@ -41,12 +31,24 @@
     <section class="container">
         <div class="row">
             {% for vehiculo in vehiculos %}
-            <div class="col-md-4">
-                <div class="card vehicle-card">
-                    <img src="{{ url_for('static', filename='images/vehicles/' + vehiculo.tipo) + '.png' }}" alt="{{ vehiculo.nombre }}" width="200">
-                    <div class="vehicle-name">{{ vehiculo.modelo }}</div>
+                {% if vehiculo.estado == 'disponible' %}
+                <div class="col-md-4">
+                    <div class="card vehicle-card">
+                        <img src="{{ url_for('static', filename='images/vehicles/' + vehiculo.tipo) + '.png' }}" alt="{{ vehiculo.nombre }}" width="200">
+                        <div class="vehicle-name">{{ vehiculo.modelo }}</div>
+                        <div class="expanded-details">
+                            <h3>Reservar Vehículo</h3>
+                            <form class="reservationForm" data-matricula="{{ vehiculo.matricula }}">
+                                <div class="form-group">Matricula: {{ vehiculo.matricula }}</div>
+                                <div class="form-group">Bateria: {{ vehiculo.bateria }}%</div>
+                                <div class="form-group">Coste: €</div>
+                                <!-- Puedes agregar más campos según sea necesario -->
+                                <button type="submit" class="btn btn-primary">Reservar Vehículo</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-            </div>
+                {% endif %}
             {% endfor %}
             {% if not vehiculos %}
             <div class="col-12">
@@ -56,6 +58,27 @@
         </div>
     </section>
     
+    <!-- Modal confirmación reserva -->
+    <div class="modal fade custom-modal" id="reservationModal" tabindex="-1" role="dialog" aria-labelledby="reservationModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="reservationModalLabel">Confirmar Reserva</h5>
+            <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <!-- Texto dinámico -->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-primary" id="confirmReservationButton">Reservar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Footer -->
     <footer class="footer">
         <p>© 2025 GreenDrive | <a href="#">Política de Privacidad</a> | <a href="#">Términos de Uso</a></p>
@@ -64,103 +87,7 @@
     <!-- Scripts -->
     <!-- Google Maps API -->
     <script src="https://maps.googleapis.com/maps/api/js?key={{ google_api_key }}"></script>
-    <script>
-        let map, userMarker;
-
-        function initMap() {
-            // Verificar si la API de Google Maps se cargó correctamente
-            if (typeof google === 'undefined' || typeof google.maps === 'undefined') {
-                alert("Error: No se pudo cargar la API de Google Maps. Verifica la clave API.");
-                return;
-            }
-
-            // Centro inicial (Talavera)
-            const initialCenter = { lat: 39.9620, lng: -4.8308 };
-
-            // Delimitar un rectángulo que abarca Talavera y alrededores inmediatos
-            const allowedBounds = {
-                north: 40.00,   // latitud máxima
-                south: 39.92,   // latitud mínima
-                west: -4.88,    // longitud mínima
-                east: -4.78     // longitud máxima
-            };
-
-            map = new google.maps.Map(document.getElementById("map"), {
-                center: initialCenter,
-                zoom: 13,
-                restriction: {
-                    latLngBounds: allowedBounds,
-                    strictBounds: true // Impide desplazar el mapa fuera de Talavera
-                },
-                mapTypeControl: false,
-                streetViewControl: false,
-            });
-
-            // Intentamos obtener la ubicación del usuario
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    position => {
-                        const userPos = {
-                            lat: position.coords.latitude,
-                            lng: position.coords.longitude
-                        };
-
-                        // Verificar si la ubicación del usuario está dentro de los límites permitidos
-                        if (
-                            userPos.lat >= allowedBounds.south &&
-                            userPos.lat <= allowedBounds.north &&
-                            userPos.lng >= allowedBounds.west &&
-                            userPos.lng <= allowedBounds.east
-                        ) {
-                            // Centrar el mapa en la posición del usuario
-                            map.setCenter(userPos);
-                            map.setZoom(15);
-
-                            // Añadir un marcador para la ubicación actual
-                            userMarker = new google.maps.Marker({
-                                position: userPos,
-                                map: map,
-                                title: "Tú estás aquí"
-                            });
-                        } else {
-                            alert("Tu ubicación está fuera de los límites permitidos.");
-                        }
-                    },
-                    error => {
-                        console.error("Error al obtener ubicación:", error.message);
-                    },
-                    {
-                        enableHighAccuracy: true,
-                        timeout: 10000,
-                        maximumAge: 0
-                    }
-                );
-            } else {
-                alert("Tu navegador no soporta Geolocation.");
-            }
-
-            // Cargar vehículos desde la API
-            fetch('/map/data')
-                .then(res => res.json())
-                .then(vehicles => {
-                    vehicles.forEach(v => {
-                        new google.maps.Marker({
-                            position: { lat: v.lat, lng: v.lng },
-                            map: map,
-                            icon: {
-                                url: v.icon,
-                                scaledSize: new google.maps.Size(50, 50)
-                            },
-                            title: v.title
-                        });
-                    });
-                })
-                .catch(err => console.error('Error cargando vehículos:', err));
-        }
-
-        // Inicializar el mapa al cargar la página
-        window.onload = initMap;
-    </script>
+    
     <!-- Scripts de Bootstrap -->
     <script src="/static/js/vehicleList.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
