@@ -33,35 +33,52 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
-    // Gestión de reserva
+    let currentMatricula = '';
+    let currentModelo = '';
+
+    // Gestión de reserva con modal
     document.querySelectorAll('.reservationForm').forEach(form => {
         form.addEventListener('submit', function(e) {
             e.preventDefault();
-            const matricula = this.dataset.matricula;
-            if (confirm("¿Desea reservar este vehículo?")) {
-                fetch(`/vehiculos/reservar`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ matricula })
-                })
-                .then(res => {
-                    if (!res.ok) console.error('HTTP error al reservar:', res.status);
-                    return res.json();
-                })
-                .then(data => {
-                    if (data.status === 'success') {
-                        alert('✔ Vehículo reservado');
-                        location.reload();
-                    } else {
-                        console.error('API error:', data);
-                        alert('Error al reservar vehículo');
-                    }
-                })
-                .catch(err => {
-                    console.error('Fetch error:', err);
-                    alert('Error al reservar vehículo');
-                });
+            currentMatricula = this.dataset.matricula;
+            currentModelo = this.closest('.vehicle-card').querySelector('.vehicle-name').innerText;
+            // set body del modal
+            $('#reservationModal .modal-body').html(
+                `¿Desea reservar el vehículo <strong>${currentModelo}</strong>?`
+            );
+            $('#reservationModal').modal('show');
+        });
+    });
+
+    // Al pulsar "Reservar" en el modal
+    document.getElementById('confirmReservationButton').addEventListener('click', function() {
+        // ocultar botones del pie del modal
+        $('#reservationModal .modal-footer button').hide();
+
+        fetch(`/vehiculos/reservar`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ matricula: currentMatricula })
+        })
+        .then(res => res.json())
+        .then(data => {
+            const body = $('#reservationModal .modal-body');
+            if (data.status === 'success') {
+                body.html(
+                    `<div class="text-center">
+                        <svg class="checkmark" viewBox="0 0 52 52">
+                            <path d="M14 27 L22 35 L38 19"></path>
+                        </svg>
+                        <p>¡Vehículo reservado con éxito!</p>
+                    </div>`
+                );
+                setTimeout(() => location.reload(), 1200);
+            } else {
+                body.html(`<p class="text-danger">Error al reservar vehículo.</p>`);
             }
+        })
+        .catch(() => {
+            $('#reservationModal .modal-body').html(`<p class="text-danger">Error de conexión.</p>`);
         });
     });
 });
