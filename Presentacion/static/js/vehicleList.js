@@ -32,6 +32,38 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     });
+
+    // Gestión de reserva
+    document.querySelectorAll('.reservationForm').forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const matricula = this.dataset.matricula;
+            if (confirm("¿Desea reservar este vehículo?")) {
+                fetch(`/vehiculos/reservar`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ matricula })
+                })
+                .then(res => {
+                    if (!res.ok) console.error('HTTP error al reservar:', res.status);
+                    return res.json();
+                })
+                .then(data => {
+                    if (data.status === 'success') {
+                        alert('✔ Vehículo reservado');
+                        location.reload();
+                    } else {
+                        console.error('API error:', data);
+                        alert('Error al reservar vehículo');
+                    }
+                })
+                .catch(err => {
+                    console.error('Fetch error:', err);
+                    alert('Error al reservar vehículo');
+                });
+            }
+        });
+    });
 });
 
 // Gestion Mapa

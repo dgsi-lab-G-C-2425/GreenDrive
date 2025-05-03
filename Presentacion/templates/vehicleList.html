@@ -35,7 +35,7 @@
                         <div class="vehicle-name">{{ vehiculo.modelo }}</div>
                         <div class="expanded-details">
                             <h3>Reservar Vehículo</h3>
-                            <form class="reservationForm">
+                            <form class="reservationForm" data-matricula="{{ vehiculo.matricula }}">
                                 <div class="form-group">Matricula: {{ vehiculo.matricula }}</div>
                                 <div class="form-group">Bateria: {{ vehiculo.bateria }}%</div>
                                 <div class="form-group">Coste: €</div>
