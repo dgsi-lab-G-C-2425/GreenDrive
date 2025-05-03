@@ -50,6 +50,7 @@ html, body {
     top: 0;
     left: 0;
     width: 100%;
+    height: 8%;
     background-color: var(--bg-darker);
     padding: 1rem 2rem; /* Aumentado para centrar verticalmente */
     display: flex;
@@ -90,13 +91,17 @@ html, body {
     transition: background-color 0.3s ease; /* Removido transition de color */
     border-radius: 15px;
     position: relative;
-    top: 10px; /* Ajustado para centrar verticalmente */
+    /* top: 10px;  */
 }
 
 .nav-links li a:hover {
     color: var(--text-black);
     background-color: #fff;
     text-decoration: none;
+}
+
+ul {
+    margin-bottom: 0px;
 }
 
 /* ---------- CONTENEDOR MAPA ---------- */
