@@ -1,0 +1,87 @@
+/* ---------- Paleta centralizada (Colores fríos premium) ---------- */
+:root {
+    /* Fondos oscuros fríos con matiz azul profundo */
+    --bg-darkest: #0d1117;  /* negro azulado casi total */
+    --bg-darker:  #161b22;  /* gris marino muy oscuro */
+    --bg-dark:    #21262d;  /* gris antracita frío */
+    --bg-medium:  #2e333a;  /* gris oscuro suave */
+    --bg-light:   #58a6ff;  /* azul hielo destacable */
+
+    /* Tonos de texto */
+    --text-primary:   #c9d1d9; /* gris azulado claro */
+    --text-secondary: #8b949e; /* gris azulado medio */
+    --text-muted:     #6e7781; /* gris azulado apagado */
+    --text-black:     #000000; 
+
+    /* Acentos y resaltados metálicos */
+    --accent-ice:     #79c0ff; /* azul hielo metálico */
+    --accent-silver:  #adb5bd; /* plateado suave */
+
+    /* Sombras y delineados sutiles */
+    --shadow-color:   rgba(0, 0, 0, 0.7);
+    --border-light:   rgba(201, 209, 217, 0.2);
+    --border-dark:    rgba(0, 0, 0, 0.4);
+}
+
+/* ---------- Reset básico ---------- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    text-decoration: none;
+    list-style: none;
+}
+
+/* ---------- Configuración global ---------- */
+html, body {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    color: var(--text-black);
+}
+
+.containerReserva {
+    max-width: 800px;
+    margin: 5rem auto;               /* Centramos y separamos del resto */
+    background-color: #ffffff;       /* Fondo blanco limpio */
+    padding: 2rem;                   /* Espacio interior cómodo */
+    border-radius: 12px;             /* Bordes redondeados suaves */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);  /* Sombra ligera para “flotar” */
+    color: var(--text-black);      /* Texto en tono gris azulado claro */
+}
+
+/* Estilo extra para el título */
+.containerReserva h1 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.containerReserva h1::after {
+    content: '';
+    display: block;
+    width: 50px;
+    height: 4px;
+    background-color: var(--bg-darkest); /* Azul hielo metálico */
+    margin: 0.5rem auto; /* Centramos la línea */
+}
+
+.containerReserva h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 1.5rem; /* Tamaño de fuente más grande */
+    color: var(--text-black); /* Color gris azulado claro */
+}
+
+.containerReserva p {
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 1rem; /* Tamaño de fuente más pequeño */
+    color: var(--text-black); /* Color gris azulado apagado */
+}
+
+
+/* Estilo para los botones */
