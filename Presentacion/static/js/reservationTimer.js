@@ -46,7 +46,7 @@
             confirmBtn.classList.remove('confirm-btn');
             confirmBtn.classList.add('close-btn');
             confirmBtn.disabled = false;
-            confirmBtn.onclick = () => window.location.reload();
+            confirmBtn.onclick = () => window.location.href = '/vehiculos';
           });
       };
     });

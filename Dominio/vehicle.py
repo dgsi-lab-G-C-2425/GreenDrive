@@ -16,13 +16,17 @@ def index():
 
 @vehicle_bp.route('/vehiculos', methods=['GET'])
 def vehicle_list():
+    # redirigir si el usuario tiene reserva activa
+    user_id = session.get('user_id')
+    if user_id and ReservasDAO().get_active_reservation(user_id):
+        return redirect(url_for('reserve.index'))
+
     raw = VehiculoDAO.obtener_todos()
     if raw is None:
         flash("No se encontraron vehículos en la base de datos.", "error")
         return redirect(url_for('vehiculo.index'))
     # convertir _id a str
     vehiculos = [{**v, '_id': str(v.get('_id'))} for v in raw]
-    user_id = session.get('user_id')  # obtiene id de usuario en sesión
     return render_template(
         'vehicleList.html',
         vehiculos=vehiculos,
