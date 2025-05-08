@@ -50,13 +50,14 @@ html, body {
 }
 
 .containerReserva {
-    max-width: 800px;
-    margin: 5rem auto;               /* Centramos y separamos del resto */
-    background-color: #ffffff;       /* Fondo blanco limpio */
-    padding: 2rem;                   /* Espacio interior cómodo */
-    border-radius: 12px;             /* Bordes redondeados suaves */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);  /* Sombra ligera para “flotar” */
-    color: var(--text-black);      /* Texto en tono gris azulado claro */
+    max-width: 80%;
+    margin: 7% auto;
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 10%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    color: var(--text-black);
+    border: 3px solid var(--border-light);
 }
 
 /* Estilo extra para el título */
@@ -148,6 +149,10 @@ html, body {
   justify-content: center;
   z-index: 1000;
 }
+.modal.open {
+  display: flex;
+  animation: fadeInBg 0.3s ease-out;
+}
 .modal-content {
   background: #fefefe;
   padding: 2rem;
@@ -156,6 +161,11 @@ html, body {
   width: 90%;
   box-shadow: 0 8px 24px rgba(0,0,0,0.25);
   text-align: center;
+  transform: scale(0);
+  transform-origin: center bottom;
+}
+.modal.open .modal-content {
+  animation: popIn 0.3s ease-out forwards;
 }
 .modal-content p {
   margin-bottom: 1.5rem;
@@ -222,4 +232,13 @@ html, body {
 /* Centrar botón Cerrar en modal */
 .modal-buttons .close-btn {
   margin: 0 auto;
+}
+
+@keyframes fadeInBg {
+  from { background: rgba(0, 0, 0, 0); }
+  to   { background: rgba(0, 0, 0, 0.6); }
+}
+@keyframes popIn {
+  from { transform: scale(0.3); }
+  to   { transform: scale(1); }
 }

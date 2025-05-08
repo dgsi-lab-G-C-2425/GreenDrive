@@ -27,9 +27,10 @@
       msg.textContent = '¿Estás seguro de finalizar la reserva?';
       cancelBtn.style.display = 'inline-block';
       confirmBtn.textContent = 'Aceptar';
-      modal.style.display = 'flex';
+      modal.classList.add('open');
 
-      cancelBtn.onclick = () => modal.style.display = 'none';
+      cancelBtn.onclick = () => 
+        modal.classList.remove('open');
       confirmBtn.onclick = () => {
         // al aceptar, deshabilita botones
         cancelBtn.style.display = 'none';
@@ -46,7 +47,10 @@
             confirmBtn.classList.remove('confirm-btn');
             confirmBtn.classList.add('close-btn');
             confirmBtn.disabled = false;
-            confirmBtn.onclick = () => window.location.href = '/vehiculos';
+            confirmBtn.onclick = () => {
+              modal.classList.remove('open');
+              window.location.href = '/vehiculos';
+            };
           });
       };
     });
