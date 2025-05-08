@@ -41,7 +41,11 @@
                 <span id="elapsedTime" data-start="{{ reserva.fecha_inicio }}">00:00:00</span>
             </h2>
             <div class="button-wrapper">
-                <button id="finishReservation" class="finish-btn">Finalizar reserva</button>
+                <button id="finishReservation"
+                        class="finish-btn"
+                        data-url="{{ url_for('reserve.finish_reservation') }}">
+                    Finalizar reserva
+                </button>
             </div>
             
         {% else %}
@@ -56,5 +60,16 @@
 
     <!-- ahora cargamos el script externo -->
     <script src="{{ url_for('static', filename='js/reservationTimer.js') }}"></script>
+
+    <!-- Modal personalizado -->
+    <div id="finishModal" class="modal">
+      <div class="modal-content">
+        <p id="finishMessage"></p>
+        <div class="modal-buttons">
+          <button id="cancelBtn" class="cancel-btn">Cancelar</button>
+          <button id="confirmBtn" class="confirm-btn">Aceptar</button>
+        </div>
+      </div>
+    </div>
 </body>
 </html>

@@ -15,4 +15,40 @@
   }
   update();
   setInterval(update, 1000);
+
+  const finishBtn = document.getElementById('finishReservation');
+  if (finishBtn) {
+    finishBtn.addEventListener('click', () => {
+      const modal = document.getElementById('finishModal');
+      const msg = document.getElementById('finishMessage');
+      const cancelBtn = document.getElementById('cancelBtn');
+      const confirmBtn = document.getElementById('confirmBtn');
+      // mostrar confirmación
+      msg.textContent = '¿Estás seguro de finalizar la reserva?';
+      cancelBtn.style.display = 'inline-block';
+      confirmBtn.textContent = 'Aceptar';
+      modal.style.display = 'flex';
+
+      cancelBtn.onclick = () => modal.style.display = 'none';
+      confirmBtn.onclick = () => {
+        // al aceptar, deshabilita botones
+        cancelBtn.style.display = 'none';
+        confirmBtn.disabled = true;
+        const url = finishBtn.dataset.url;
+        fetch(url, { method: 'POST' })
+          .then(r => r.json())
+          .then(data => {
+            // muestra resultado en el mismo modal
+            msg.textContent = data.success
+              ? `Reserva finalizada correctamente\nPrecio total: ${data.total} €`
+              : `Error: ${data.error || 'desconocido'}`;
+            confirmBtn.textContent = 'Cerrar';
+            confirmBtn.classList.remove('confirm-btn');
+            confirmBtn.classList.add('close-btn');
+            confirmBtn.disabled = false;
+            confirmBtn.onclick = () => window.location.reload();
+          });
+      };
+    });
+  }
 })();
