@@ -83,5 +83,51 @@ html, body {
     color: var(--text-black); /* Color gris azulado apagado */
 }
 
-
 /* Estilo para los botones */
+
+.containerReserva .reservation-details {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+}
+
+.containerReserva .image-col img {
+    max-width: 200px;
+    height: auto;
+    display: block;
+}
+
+.containerReserva .text-col {
+    text-align: left;
+    max-width: 400px;
+}
+
+/* Centrado y espacio para “Tiempo transcurrido” */
+.containerReserva .elapsed-container {
+    text-align: center;
+    margin: 2rem auto 0;
+    font-size: 1.5rem;
+}
+
+/* Botón de finalizar reserva */
+.containerReserva .button-wrapper {
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+.containerReserva .finish-btn {
+    background-color: #e74c3c;
+    color: #ffffff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.containerReserva .finish-btn:hover {
+    background-color: #c0392b;
+}
