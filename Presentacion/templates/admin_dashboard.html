@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_dashboard.css') }}">
+    <title>Panel de Administrador</title>
+</head>
+<body>
+    <h1>Panel de Administrador</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Modelo</th>
+                <th>Matrícula</th>
+                <th>Batería</th>
+                <th>Estado</th>
+                <th>Precio</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for vehiculo in vehiculos %}
+            <tr>
+                <td>{{ vehiculo.modelo }}</td>
+                <td>{{ vehiculo.matricula }}</td>
+                <td>{{ vehiculo.bateria }}%</td>
+                <td>{{ vehiculo.estado }}</td>
+                <td>{{ vehiculo.precio }}€</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('auth.logout') }}">Cerrar sesión</a>
+</body>
+</html>

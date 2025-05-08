@@ -32,9 +32,15 @@ def login():
         if check_password_hash(usuario.get("pass"), password):
             session['user_id'] = str(usuario["_id"])
             session['user_name'] = usuario.get("name")
-            flash("Inicio de sesión exitoso!")
-            print("Usuario autenticado:", usuario)
-            return redirect(url_for('vehiculo.vehicle_list'))  # Or redirect to a dashboard
+            session['user_role'] = usuario.get("role", "user") # Default to 'user' if not set
+
+            # Redigirigir según el rol del usuario
+            if session['user_role'] == 'admin':
+                return redirect(url_for('admin.dashboard'))
+            else:
+                flash("Inicio de sesión exitoso!")
+                print("Usuario autenticado:", usuario)
+                return redirect(url_for('vehiculo.vehicle_list'))
         else:
             flash("Contraseña incorrecta.")
             return redirect(url_for('auth.login_page'))
@@ -83,3 +89,10 @@ def UserBlock():
 def users():
     usuarios = UserDAO.obtener_todos()
     return jsonify(usuarios), 200
+
+@auth_bp.route('/logout', methods=['GET'])
+def logout():
+    # Elimina los datos de la sesión
+    session.clear()
+    flash("Has cerrado sesión correctamente.")
+    return redirect(url_for('auth.login_page'))
