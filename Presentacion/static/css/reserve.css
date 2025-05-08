@@ -1,0 +1,244 @@
+/* ---------- Paleta centralizada (Colores fríos premium) ---------- */
+:root {
+    /* Fondos oscuros fríos con matiz azul profundo */
+    --bg-darkest: #0d1117;  /* negro azulado casi total */
+    --bg-darker:  #161b22;  /* gris marino muy oscuro */
+    --bg-dark:    #21262d;  /* gris antracita frío */
+    --bg-medium:  #2e333a;  /* gris oscuro suave */
+    --bg-light:   #58a6ff;  /* azul hielo destacable */
+    
+    /* Tonos de Botones */
+    --bt-green:     #9aff86;
+    --bt-red:         #ff5353;
+
+
+    /* Tonos de texto */
+    --text-primary:   #c9d1d9; /* gris azulado claro */
+    --text-secondary: #8b949e; /* gris azulado medio */
+    --text-muted:     #6e7781; /* gris azulado apagado */
+    --text-black:     #000000; 
+
+    /* Acentos y resaltados metálicos */
+    --accent-ice:     #79c0ff; /* azul hielo metálico */
+    --accent-silver:  #adb5bd; /* plateado suave */
+
+    /* Sombras y delineados sutiles */
+    --shadow-color:   rgba(0, 0, 0, 0.7);
+    --border-light:   rgba(201, 209, 217, 0.2);
+    --border-dark:    rgba(0, 0, 0, 0.4);
+}
+
+/* ---------- Reset básico ---------- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    text-decoration: none;
+    list-style: none;
+}
+
+/* ---------- Configuración global ---------- */
+html, body {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    color: var(--text-black);
+}
+
+.containerReserva {
+    max-width: 80%;
+    margin: 7% auto;
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 10%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    color: var(--text-black);
+    border: 3px solid var(--border-light);
+}
+
+/* Estilo extra para el título */
+.containerReserva h1 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.containerReserva h1::after {
+    content: '';
+    display: block;
+    width: 50px;
+    height: 4px;
+    background-color: var(--bg-darkest); /* Azul hielo metálico */
+    margin: 0.5rem auto; /* Centramos la línea */
+}
+
+.containerReserva h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 1.5rem; /* Tamaño de fuente más grande */
+    color: var(--text-black); /* Color gris azulado claro */
+}
+
+.containerReserva p {
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 1rem; /* Tamaño de fuente más pequeño */
+    color: var(--text-black); /* Color gris azulado apagado */
+}
+
+/* Estilo para los botones */
+
+.containerReserva .reservation-details {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+}
+
+.containerReserva .image-col img {
+    max-width: 200px;
+    height: auto;
+    display: block;
+}
+
+.containerReserva .text-col {
+    text-align: left;
+    max-width: 400px;
+}
+
+/* Centrado y espacio para “Tiempo transcurrido” */
+.containerReserva .elapsed-container {
+    text-align: center;
+    margin: 2rem auto 0;
+    font-size: 1.5rem;
+}
+
+/* Botón de finalizar reserva */
+.containerReserva .button-wrapper {
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+.containerReserva .finish-btn {
+    background-color: #e74c3c;
+    color: #ffffff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.containerReserva .finish-btn:hover {
+    background-color: #c0392b;
+}
+
+/* Modal personalizado ajustado */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.modal.open {
+  display: flex;
+  animation: fadeInBg 0.3s ease-out;
+}
+.modal-content {
+  background: #fefefe;
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 360px;
+  width: 90%;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+  text-align: center;
+  transform: scale(0);
+  transform-origin: center bottom;
+}
+.modal.open .modal-content {
+  animation: popIn 0.3s ease-out forwards;
+}
+.modal-content p {
+  margin-bottom: 1.5rem;
+  color: var(--text-black);
+  font-weight: bold;
+  font-size: 1.1rem;
+  line-height: 1.4;
+}
+.modal-content button {
+  color: #ffffff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.modal-content button:hover {
+  background-color: var(--accent-ice);
+}
+
+/* Botones de confirmación con más presencia */
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+.confirm-btn, .cancel-btn {
+  flex: 1;
+  font-size: 1rem;
+  padding: 0.75rem 0;
+  border: none;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+.confirm-btn {
+  background-color: #28a745;
+  color: #ffffff;
+}
+.confirm-btn:hover {
+  background-color: #218838;
+  transform: translateY(-1px);
+}
+.cancel-btn {
+  background-color: #dc3545;
+  color: #ffffff;
+}
+.cancel-btn:hover {
+  background-color: #c82333;
+  transform: translateY(-1px);
+}
+
+.close-btn {
+  background-color: #007bff;
+  color: #ffffff;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+.close-btn:hover {
+  background-color: #0056b3;
+  transform: translateY(-1px);
+}
+
+/* Centrar botón Cerrar en modal */
+.modal-buttons .close-btn {
+  margin: 0 auto;
+}
+
+@keyframes fadeInBg {
+  from { background: rgba(0, 0, 0, 0); }
+  to   { background: rgba(0, 0, 0, 0.6); }
+}
+@keyframes popIn {
+  from { transform: scale(0.3); }
+  to   { transform: scale(1); }
+}

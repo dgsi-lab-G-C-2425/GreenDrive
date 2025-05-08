@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Reserva activa</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/vehicleList.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/reserve.css') }}">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-logo">GreenDrive</div>
+        <ul class="nav-links">
+            <li><a href="/">Cerrar Sesión</a></li>
+        </ul>
+    </nav>
+    
+    <!-- Contenido principal -->
+    <section class="containerReserva container">
+        {% if reserva %}
+            <h1>Tu reserva activa</h1>
+            <div class="reservation-details">
+                <div class="image-col">
+                    <img src="{{ url_for('static', filename='images/vehicles/' + vehicle.tipo) + '.png' }}" alt="{{ vehicle.nombre }}">
+                </div>
+                <div class="text-col">
+                    <h2>{{ vehicle.modelo }}</h2>
+                    <p><strong>Matrícula:</strong> {{ vehicle.matricula }}</p>
+                    <p><strong>Fecha inicio:</strong> {{ reserva.fecha_inicio.strftime('%Y-%m-%d') }}</p>
+                    <p><strong>Fecha fin:</strong>
+                        {% if reserva.fecha_fin %}
+                            {{ reserva.fecha_fin.strftime('%Y-%m-%d') }}
+                        {% else %}
+                            –
+                        {% endif %}
+                    </p>
+                    <p><strong>Estado:</strong> {{ reserva.estado }}</p>
+                </div>
+            </div>
+            <h2 class="elapsed-container"><strong>Tiempo transcurrido</strong><br>
+                <span id="elapsedTime" data-start="{{ reserva.fecha_inicio }}">00:00:00</span>
+            </h2>
+            <div class="button-wrapper">
+                <button id="finishReservation"
+                        class="finish-btn"
+                        data-url="{{ url_for('reserve.finish_reservation') }}">
+                    Finalizar reserva
+                </button>
+            </div>
+            
+        {% else %}
+            <p>No tienes reservas activas.</p>
+        {% endif %}
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2025 GreenDrive | <a href="#">Política de Privacidad</a> | <a href="#">Términos de Uso</a></p>
+    </footer>
+
+    <!-- ahora cargamos el script externo -->
+    <script src="{{ url_for('static', filename='js/reservationTimer.js') }}"></script>
+
+    <!-- Modal personalizado -->
+    <div id="finishModal" class="modal">
+      <div class="modal-content">
+        <p id="finishMessage"></p>
+        <div class="modal-buttons">
+          <button id="cancelBtn" class="cancel-btn">Cancelar</button>
+          <button id="confirmBtn" class="confirm-btn">Aceptar</button>
+        </div>
+      </div>
+    </div>
+</body>
+</html>
