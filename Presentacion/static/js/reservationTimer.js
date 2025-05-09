@@ -32,9 +32,9 @@
       cancelBtn.onclick = () => 
         modal.classList.remove('open');
       confirmBtn.onclick = () => {
-        // al aceptar, deshabilita botones
+        // al aceptar, oculta los botones mientras se procesa
         cancelBtn.style.display = 'none';
-        confirmBtn.disabled = true;
+        confirmBtn.style.display = 'none';
         const url = finishBtn.dataset.url;
         fetch(url, { method: 'POST' })
           .then(r => r.json())
@@ -47,6 +47,7 @@
             confirmBtn.classList.remove('confirm-btn');
             confirmBtn.classList.add('close-btn');
             confirmBtn.disabled = false;
+            confirmBtn.style.display = 'inline-block';
             confirmBtn.onclick = () => {
               modal.classList.remove('open');
               window.location.href = '/vehiculos';
