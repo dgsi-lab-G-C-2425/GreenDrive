@@ -16,7 +16,7 @@ def transcripcion():
 def diccionario_accidentes(texto):
     bomberos = "incendio", "bomberos", "fuego", "llama", "incendio", "apagar", "extinguir", "apagar fuego", "extinguir fuego", "incendiado", "en llamas", "quemado"
     ambulacia = "sangrando", "herido", "mareado", "herida", "accidente", "emergencia", "urgente", "hospital", "atencion medica", "medico"
-    averia = "averia", "descompuesto", "fallo", "problema", "dañado", "reparar", "mecanico", "reparacion", "averiado", "descompuesta", "batería", "neumatico", "rueda", "motor", "frenos", "transmision", "cambio", "suspension", "electrico", "electronico"
+    averia = "pinchado", "averia", "descompuesto", "fallo", "problema", "dañado", "reparar", "mecanico", "reparacion", "averiado", "descompuesta", "batería", "neumatico", "rueda", "motor", "frenos", "transmision", "cambio", "suspension", "electrico", "electronico"
     robo = "robo", "sustraer", "hurtar", "robar", "sustraccion", "hurto", "delito", "delincuente", "ladrón", "coche robado", "vehiculo robado"
     accidente = "accidente", "choque", "colision", "impacto", "accidentado", "accidentado", "accidentada", "accidentados", "accidentadas", "choque frontal", "choque lateral", "colision frontal", "colision lateral"
 

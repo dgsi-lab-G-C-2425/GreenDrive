@@ -6,24 +6,11 @@ function transcribe(event) {
     const widget = document.getElementById('emergencyWidget');
     widget.style.display = 'block';
     
-    // Inyecta siempre el contenido (para depuración, luego se podría optimizar)
-    widget.innerHTML = `
-        <div id="chatContainer" class="chat-container">
-            <!-- Aquí se mostrarán los mensajes -->
-        </div>
-        <div id="statusContainer" style="padding: 10px; text-align: center; border-top: 1px solid #ccc;">
-            <span id="statusMsg"></span>
-            <br>
-            <button id="continueBtn" class="btn btn-primary" style="margin-top: 10px;">Continuar Mensajes</button>
-            <button id="hangupBtn" class="btn btn-danger" style="margin-top: 10px;">Colgar</button>
-        </div>
-    `;
-    
-    // Actualizar estado: indicar que se está escuchando
+    // Actualizar el mensaje de estado
     const statusMsg = document.getElementById('statusMsg');
     statusMsg.style.display = 'block';
     statusMsg.textContent = 'Escuchando, por favor hable...';
-    
+
     // Configurar el botón "Continuar Mensajes"
     const continueBtn = document.getElementById('continueBtn');
     continueBtn.onclick = function(e) {
