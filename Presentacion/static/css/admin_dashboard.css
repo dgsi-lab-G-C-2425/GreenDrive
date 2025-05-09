@@ -181,3 +181,68 @@ a.logout-btn:hover {
 .footer p a:hover {
     text-decoration: underline;
 }
+
+
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1000; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.4); 
+}
+/* Modal centrado y transparente */
+.modal-content {
+    background-color: var(--bg-medium);
+    color: var(--text-primary);
+    margin: 5% auto;
+    border-radius: 0.75rem;
+    max-width: 800px;
+    padding: 2rem;
+    box-shadow: 0 5px 15px var(--shadow-color);
+  }
+  
+  /* Grid de detalles */
+  .detalles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+  }
+  
+  /* Titulares secciones */
+  .detalles-grid h3 {
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+    color: var(--accent-ice);
+  }
+  
+  /* Listas limpias */
+  .detalles-grid ul {
+    padding-left: 1rem;
+  }
+  
+  .close {
+    color: var(--text-secondary);
+  }
+  .close:hover {
+    color: var(--accent-ice);
+  }
+  
+  /* Botones en modal */
+  .modal-content button {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: var(--accent-ice);
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .modal-content button:hover {
+    background-color: var(--bg-light);
+  }
+  

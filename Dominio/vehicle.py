@@ -6,6 +6,9 @@ from Persistencia.AgenteBD import MongoDBAgent
 from bson.objectid import ObjectId
 from Persistencia.DAOS.ReservasDAO import ReservasDAO
 from datetime import datetime
+from flask import current_app
+from apscheduler.schedulers.background import BackgroundScheduler
+
 
 MongoDBAgent = MongoDBAgent()
 vehicle_bp = Blueprint('vehiculo', __name__)
@@ -33,6 +36,24 @@ def vehicle_list():
         google_api_key=os.getenv('GOOGLE_API_KEY'),
         id_usuario=user_id
     )
+
+@vehicle_bp.route('/vehiculos/json', methods=['GET'])
+def vehiculos_json():
+    raw = VehiculoDAO.obtener_todos()
+    vehiculos = [{**v, '_id': str(v.get('_id'))} for v in raw]
+    return jsonify(vehiculos), 200
+
+@vehicle_bp.route('/vehiculos/detalles/<id>', methods=['GET'])
+def vehiculo_detalles(id):
+    try:
+        vehiculo = VehiculoDAO.obtener_dato({'_id': ObjectId(id)})
+        if vehiculo:
+            vehiculo['_id'] = str(vehiculo.get('_id'))
+            return jsonify(vehiculo), 200
+        return jsonify({'error': 'Vehículo no encontrado'}), 404
+    except Exception as e:
+        print(f"[ERROR] Detalles vehículo id={id}: {e}")
+        return jsonify({'error': str(e)}), 500
 
 @vehicle_bp.route('/vehiculos/<id>/reservar', methods=['PUT'])
 def reservar_vehiculo(id):
@@ -85,3 +106,79 @@ def reservar_por_matricula():
         })
         return jsonify({'status': 'success'}), 200
     return jsonify({'status': 'error', 'message': 'No se actualizó ningún registro'}), 400
+
+def actualizar_bateria_periodica():
+    import random
+    vehiculos = VehiculoDAO.obtener_todos()
+    updated_count = 0
+    for vehiculo in vehiculos:
+        estado = vehiculo.get('estado')
+        update_fields = {}
+        if estado in ['disponible', 'ocupado']:
+            bateria_obj = vehiculo.get('bateria', {})
+            nivel = bateria_obj.get('nivel_pct', 0)
+            try:
+                nivel_val = int(nivel)
+            except (ValueError, TypeError):
+                nivel_val = 0
+            
+            if estado == 'disponible':
+                incremento = 10  # Aumentar un 10%
+                nuevo_nivel = nivel_val + incremento if nivel_val + incremento <= 100 else 100
+                update_fields['bateria.nivel_pct'] = nuevo_nivel
+            elif estado == 'ocupado':
+                decremento = 5   # Disminuir un 5%
+                nuevo_nivel = nivel_val - decremento if nivel_val - decremento >= 0 else 0
+                update_fields['bateria.nivel_pct'] = nuevo_nivel
+                # Establecer velocidad aleatoria entre 0 y 135
+                update_fields['ubicacion.velocidad_kmh'] = random.randint(0, 135)
+            
+            if update_fields:
+                resultado = VehiculoDAO.actualizar_dato(
+                    {'_id': vehiculo.get('_id')},
+                    update_fields
+                )
+                if getattr(resultado, 'modified_count', 0) > 0:
+                    updated_count += 1
+    print(f"[INFO] Actualización periódica de batería y velocidad: {updated_count} vehículos actualizados.")
+    
+@vehicle_bp.route('/vehiculos/<id>/bloquear', methods=['POST'])
+def bloquear(id):
+    """Bloquea o desbloquea el vehículo."""
+    data = request.get_json()
+    locked = data.get('locked', True)
+    res = VehiculoDAO.actualizar_dato({'_id': ObjectId(id)}, {'bloqueo.locked': locked, 'bloqueo.timestamp': datetime.utcnow()})
+    status = 'success' if getattr(res, 'modified_count',0) else 'error'
+    return jsonify({'status': status}), 200 if status=='success' else 400
+
+@vehicle_bp.route('/vehiculos/<id>/pinchazo', methods=['POST'])
+def reportar_pinchazo(id):
+    """Marca pinchazo en una rueda específica."""
+    data = request.get_json()
+    posicion = data.get('posicion')  # ejemplo: 'FL'
+    campo = f"neumaticos.$[elem].estado"
+    res = VehiculoDAO.actualizar_dato(
+        {'_id': ObjectId(id)},
+        {campo: 'pinchazo'},
+        array_filters=[{'elem.posicion': posicion}]
+    )
+    return jsonify({'status': 'success' if res.modified_count else 'error'}), 200
+
+@vehicle_bp.route('/vehiculos/<id>/actualizar_estado', methods=['PUT'])
+def actualizar_estado(id):
+    """Actualiza el estado general del vehículo."""
+    nuevo = request.get_json().get('estado')
+    res = VehiculoDAO.actualizar_dato({'_id': ObjectId(id)}, {'estado': nuevo})
+    return jsonify({'status': 'success' if res.modified_count else 'error'}), 200
+
+
+def start_scheduler():
+    scheduler = BackgroundScheduler()
+    scheduler.add_job(actualizar_bateria_periodica, 'interval', minutes=1)
+    scheduler.start()
+    # opcionalmente guardar el scheduler en current_app para controlarlo después
+    current_app.config['BATTERY_SCHEDULER'] = scheduler
+
+@vehicle_bp.before_app_first_request
+def initialize_scheduler():
+    start_scheduler()
