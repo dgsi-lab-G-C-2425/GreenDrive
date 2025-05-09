@@ -84,6 +84,22 @@
         <p>© 2025 GreenDrive | <a href="#">Política de Privacidad</a> | <a href="#">Términos de Uso</a></p>
     </footer>
 
+
+    <button id="emergencyBtn" class="btn btn-danger emergency-btn">Emergencia</button>
+    <div id="emergencyWidget" class="emergency-widget" style="display: none;">
+      Usuario: <span id="transcriptionText"></span>
+    </div>
+    <script src="/static/js/transcribe.js"></script>
+    <script>
+      document.getElementById('emergencyBtn').addEventListener('click', function () {
+        if (typeof transcribe === 'function') {
+          transcribe();
+        } else {
+          console.error('transcribe.js is not loaded or transcribe function is not defined.');
+        }
+      });
+    </script>
+
     <!-- Scripts -->
     <!-- Google Maps API -->
     <script src="https://maps.googleapis.com/maps/api/js?key={{ google_api_key }}"></script>
