@@ -18,6 +18,7 @@
         <div class="nav-logo">GreenDrive</div>
         <ul class="nav-links">
             <li><a href="/">Cerrar Sesión</a></li>
+            <li><button id="emergencyBtn" class="btn btn-danger emergency-btn">Emergencia</button></li>
         </ul>
     </nav>
 
@@ -83,6 +84,17 @@
     <footer class="footer">
         <p>© 2025 GreenDrive | <a href="#">Política de Privacidad</a> | <a href="#">Términos de Uso</a></p>
     </footer>
+    
+    <script src="/static/js/transcribe.js"></script>
+    <script>
+      document.getElementById('emergencyBtn').addEventListener('click', function () {
+        if (typeof transcribe === 'function') {
+          transcribe();
+        } else {
+          console.error('transcribe.js is not loaded or transcribe function is not defined.');
+        }
+      });
+    </script>
 
     <!-- Scripts -->
     <!-- Google Maps API -->
@@ -93,5 +105,18 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
+
+        <!-- Widget centrado para chat en emergencia -->
+    <div id="emergencyWidget" class="emergency-widget" style="display: none;">
+      <div id="chatContainer" class="chat-container">
+          <!-- Aquí se mostrarán los mensajes -->
+      </div>
+      <div id="statusContainer" style="padding: 10px; text-align: center; border-top: 1px solid #ccc;">
+          <span id="statusMsg"></span>
+          <br>
+          <button id="continueBtn" class="btn btn-primary" style="margin-top: 10px;">Continuar Mensajes</button>
+          <button id="hangupBtn" class="btn btn-danger" style="margin-top: 10px;">Colgar</button>
+      </div>
+    </div>
+  </body>
 </html>

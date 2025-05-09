@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Reserva activa</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/vehicleList.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/reserve.css') }}">
 </head>
@@ -12,6 +13,7 @@
         <div class="nav-logo">GreenDrive</div>
         <ul class="nav-links">
             <li><a href="/">Cerrar Sesión</a></li>
+            <li><button id="emergencyBtn" class="btn btn-danger emergency-btn">Emergencia</button></li>
         </ul>
     </nav>
     
@@ -58,8 +60,21 @@
         <p>© 2025 GreenDrive | <a href="#">Política de Privacidad</a> | <a href="#">Términos de Uso</a></p>
     </footer>
 
+    <script src="/static/js/transcribe.js"></script>
+    <script>
+      document.getElementById('emergencyBtn').addEventListener('click', function () {
+        if (typeof transcribe === 'function') {
+          transcribe();
+        } else {
+          console.error('transcribe.js is not loaded or transcribe function is not defined.');
+        }
+      });
+    </script>
+
+
     <!-- ahora cargamos el script externo -->
     <script src="{{ url_for('static', filename='js/reservationTimer.js') }}"></script>
+
 
     <!-- Modal personalizado -->
     <div id="finishModal" class="modal">
@@ -71,5 +86,19 @@
         </div>
       </div>
     </div>
+
+
+    <!-- Widget centrado para chat en emergencia -->
+    <div id="emergencyWidget" class="emergency-widget" style="display: none;">
+        <div id="chatContainer" class="chat-container">
+            <!-- Aquí se mostrarán los mensajes -->
+        </div>
+        <div id="statusContainer" style="padding: 10px; text-align: center; border-top: 1px solid #ccc;">
+            <span id="statusMsg"></span>
+            <br>
+            <button id="continueBtn" class="btn btn-primary" style="margin-top: 10px;">Continuar Mensajes</button>
+            <button id="hangupBtn" class="btn btn-danger" style="margin-top: 10px;">Colgar</button>
+        </div>
+        </div>
 </body>
 </html>
