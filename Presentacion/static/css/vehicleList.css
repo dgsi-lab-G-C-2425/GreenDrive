@@ -303,50 +303,50 @@ ul {
     to { stroke-dashoffset: 0; }
 }
 
-/* 1) Convertimos el widget en flex-column */
 .emergency-widget {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: #fff;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+  
     width: 400px;
     height: 500px;
-    /* overflow: hidden; */        /* opcional quitar si ya no es necesario */
-    display: flex;                /* <- nuevo */
-    flex-direction: column;       /* <- nuevo */
-    z-index: 2000;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-}
-
-/* 2) Hacemos que el chat-container “crezca” y se comprima según el espacio */
-.chat-container {
+    
     display: flex;
     flex-direction: column;
-    flex: 1 1 auto;        /* <- ocupa todo el espacio restante */
+    
+    /* Esto asegura que pueda encogerse y liberar espacio para scroll */
+    min-height: 0;    
+    /* IMPORTANTE: quita cualquier overflow:hidden aquí */
+    
+    z-index: 2000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  }
+  
+  .chat-container {
+    flex: 1 1 auto;
+    
+    /* Fundamental: permite que este flex-item se reduzca */
+    min-height: 0;    
+    
+    /* El scroll únicamente aquí */
     overflow-y: auto;
     padding: 1rem;
-}
-
-/* 3) Aseguramos que la barra de estado sea sólo lo que necesita */
-#statusContainer {
-    flex: 0 0 auto;        /* <- fija su altura al contenido */
+  }
+  
+  #statusContainer {
+    flex: 0 0 auto;
     padding: 10px;
     text-align: center;
     border-top: 1px solid #ccc;
-}
-
-
-
+    background: #fafafa;
+  }
+  
+/* Opcional: para que las burbujas no se estiren en ancho */
 .chat-bubble {
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    margin: 0.5rem 0;
     max-width: 80%;
-    word-wrap: break-word;
 }
+
 .chat-bubble.user {
     background: #dcf8c6;
     align-self: flex-end;

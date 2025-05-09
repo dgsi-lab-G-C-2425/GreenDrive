@@ -63,9 +63,17 @@ function transcribe(event) {
         .then(data => {
             const sysBubble = document.createElement('div');
             sysBubble.className = 'chat-bubble system';
-            sysBubble.textContent = data.mensaje;
+            sysBubble.textContent = data.mensaje;        
             chatContainer.appendChild(sysBubble);
             chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            // **Aquí integra la síntesis de voz**:
+            const utterance = new SpeechSynthesisUtterance(data.mensaje);
+            utterance.lang = 'es-ES';               // idioma español de España
+            // opcional: ajustar velocidad y tono
+            // utterance.rate = 1.0;
+            // utterance.pitch = 1.0;
+            window.speechSynthesis.speak(utterance);
         })
         .catch(error => console.error('Error calling chatbot:', error));
 
