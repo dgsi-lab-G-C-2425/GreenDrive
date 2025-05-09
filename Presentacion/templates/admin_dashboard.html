@@ -19,16 +19,67 @@
         </thead>
         <tbody>
             {% for vehiculo in vehiculos %}
-            <tr>
+            <tr class="vehiculo-row" data-id="{{ vehiculo._id }}">
                 <td>{{ vehiculo.modelo }}</td>
                 <td>{{ vehiculo.matricula }}</td>
-                <td>{{ vehiculo.bateria }}%</td>
+                <td>{{ vehiculo.bateria.nivel_pct }}%</td>
                 <td>{{ vehiculo.estado }}</td>
-                <td>{{ vehiculo.precio }}€</td>
+                <td>{{ vehiculo.precio }}cents/h</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
     <a href="{{ url_for('auth.logout') }}">Cerrar sesión</a>
+
+    <!-- Modal para mostrar detalles del vehículo -->
+    <div id="vehiculoModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Detalles del Vehículo</h2>
+            <!-- Dentro de <div id="vehiculoDetalles"> -->
+            <div class="detalles-grid">
+                <div>
+                <h3>General</h3>
+                <p><strong>Modelo:</strong> <span id="d-modelo"></span></p>
+                <p><strong>Matrícula:</strong> <span id="d-matricula"></span></p>
+                <p><strong>Tipo:</strong> <span id="d-tipo"></span></p>
+                <p><strong>Estado:</strong> <span id="d-estado"></span></p>
+                <p><strong>Precio:</strong> <span id="d-precio"></span> cents/min</p>
+                </div>
+                <div>
+                <h3>Batería</h3>
+                <p><strong>Nivel:</strong> <span id="d-b-nivel"></span>%</p>
+                <p><strong>SOH:</strong> <span id="d-b-soh"></span>%</p>
+                <p><strong>Ciclos:</strong> <span id="d-b-ciclos"></span></p>
+                <p><strong>Temp.:</strong> <span id="d-b-temp"></span> °C</p>
+                <p><strong>Consumo:</strong> <span id="d-b-consumo"></span> kW</p>
+                <p><strong>Recup.:</strong> <span id="d-b-recup"></span> kW</p>
+                </div>
+                <div>
+                <h3>Ubicación & Estado</h3>
+                <p><strong>Lat, Lng:</strong> <span id="d-ubic"></span></p>
+                <p><strong>Velocidad:</strong> <span id="d-vel"></span> km/h</p>
+                <p><strong>Geofence:</strong> <span id="d-geofence"></span></p>
+                </div>
+                <div>
+                <h3>Neumáticos</h3>
+                <ul id="d-neumaticos"></ul>
+                </div>
+                <div>
+                <h3>Conectividad</h3>
+                <p><strong>Tipo:</strong> <span id="d-con-type"></span></p>
+                <p><strong>RSSI:</strong> <span id="d-con-rssi"></span> dBm</p>
+                <p><strong>Firmware:</strong> <span id="d-con-fw"></span></p>
+                <p><strong>Upd. Pendiente:</strong> <span id="d-con-upd"></span></p>
+                </div>
+                <div>
+                <h3>Motor & Errores</h3>
+                <p><strong>Temp. Ctrlr:</strong> <span id="d-m-temp"></span> °C</p>
+                <p><strong>Errores:</strong> <span id="d-m-errs"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/admin_dashboard.js') }}"></script>
 </body>
 </html>

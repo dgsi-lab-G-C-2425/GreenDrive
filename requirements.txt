@@ -5,3 +5,4 @@ tabulate
 pandas
 python-dotenv
 flask
+apscheduler
