@@ -31,3 +31,20 @@ class ReservasDAO:
     @staticmethod
     def borrar_dato(filtro):
         return mongoDBAgent.delete_one(ReservasDAO.COLLECTION, filtro)
+
+    def get_active_reservation(self, user_id):
+        from bson import ObjectId
+        # Intentar buscar con ObjectId
+        try:
+            oid = ObjectId(user_id)
+        except Exception:
+            oid = None
+        query_oid = {"id_usuario": oid, "estado": "activa"} if oid else {}
+        reserva = None
+        if oid:
+            reserva = mongoDBAgent.find_one(ReservasDAO.COLLECTION, query_oid)
+        # Si no hay resultado, intentar con user_id como string
+        if not reserva:
+            query_str = {"id_usuario": user_id, "estado": "activa"}
+            reserva = mongoDBAgent.find_one(ReservasDAO.COLLECTION, query_str)
+        return reserva

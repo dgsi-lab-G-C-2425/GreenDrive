@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         <p>¡Vehículo reservado con éxito!</p>
                     </div>`
                 );
-                setTimeout(() => location.reload(), 1200);
+                setTimeout(() => window.location.href = '/reserve', 1200);
             } else {
                 body.html(`<p class="text-danger">Error al reservar vehículo.</p>`);
             }
