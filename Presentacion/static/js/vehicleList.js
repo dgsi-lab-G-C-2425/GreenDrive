@@ -182,3 +182,20 @@ function initMap() {
 
 // Inicializar el mapa al cargar la página
 window.onload = initMap;
+
+// Polling para actualizar niveles de batería
+function updateBatteryLevels() {
+    fetch('/api/vehicle_status')
+      .then(res => res.json())
+      .then(data => {
+        data.forEach(v => {
+          const el = document.querySelector(`.battery-level[data-matricula="${v.matricula}"]`);
+          if (el) el.textContent = v.bateria + '%';
+        });
+      })
+      .catch(console.error);
+}
+
+// llamada inicial y cada 10s
+updateBatteryLevels();
+setInterval(updateBatteryLevels, 10000);

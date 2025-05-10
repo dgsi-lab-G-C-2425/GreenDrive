@@ -28,6 +28,7 @@
                 <div class="text-col">
                     <h2>{{ vehicle.modelo }}</h2>
                     <p><strong>Matrícula:</strong> {{ vehicle.matricula }}</p>
+                    <p><strong>Bateria:</strong> {{ vehicle.bateria.nivel_pct }}%</p>
                     <p><strong>Fecha inicio:</strong> {{ reserva.fecha_inicio.strftime('%Y-%m-%d') }}</p>
                     <p><strong>Fecha fin:</strong>
                         {% if reserva.fecha_fin %}

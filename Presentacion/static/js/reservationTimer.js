@@ -32,9 +32,9 @@
       cancelBtn.onclick = () => 
         modal.classList.remove('open');
       confirmBtn.onclick = () => {
-        // al aceptar, deshabilita botones
+        // al aceptar, ocultar botones
         cancelBtn.style.display = 'none';
-        confirmBtn.disabled = true;
+        confirmBtn.style.display = 'none';
         const url = finishBtn.dataset.url;
         fetch(url, { method: 'POST' })
           .then(r => r.json())
@@ -43,6 +43,8 @@
             msg.textContent = data.success
               ? `Reserva finalizada correctamente\nPrecio total: ${data.total} €`
               : `Error: ${data.error || 'desconocido'}`;
+            // volver a mostrar el botón antes de cambiar texto
+            confirmBtn.style.display = 'inline-block';
             confirmBtn.textContent = 'Cerrar';
             confirmBtn.classList.remove('confirm-btn');
             confirmBtn.classList.add('close-btn');

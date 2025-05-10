@@ -179,6 +179,14 @@ def start_scheduler():
     # opcionalmente guardar el scheduler en current_app para controlarlo después
     current_app.config['BATTERY_SCHEDULER'] = scheduler
 
-@vehicle_bp.before_app_first_request
+@vehicle_bp.before_app_request
 def initialize_scheduler():
     start_scheduler()
+
+@vehicle_bp.route('/api/vehicle_status')
+def vehicle_status():
+    vehiculos = VehiculoDAO.obtener_todos()
+    return jsonify([
+        {'matricula': v.get('matricula'), 'bateria': v.get('bateria', {}).get('nivel_pct')}
+        for v in vehiculos
+    ])
