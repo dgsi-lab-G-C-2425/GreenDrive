@@ -27,6 +27,8 @@ function transcribe(event) {
             recognitionInstance = null;
         }
         widget.style.display = 'none';
+        // Limpiar el contenedor de mensajes al cerrar
+        document.getElementById('chatContainer').innerHTML = '';
     };
 
     // Evitar que clics dentro del widget lo cierren
@@ -67,25 +69,32 @@ function transcribe(event) {
             chatContainer.appendChild(sysBubble);
             chatContainer.scrollTop = chatContainer.scrollHeight;
 
-            // **Aquí integra la síntesis de voz**:
+            // Síntesis de voz
             const utterance = new SpeechSynthesisUtterance(data.mensaje);
-            utterance.lang = 'es-ES';               // idioma español de España
-            // opcional: ajustar velocidad y tono
-            // utterance.rate = 1.0;
-            // utterance.pitch = 1.0;
+            utterance.lang = 'es-ES';
             window.speechSynthesis.speak(utterance);
         })
-        .catch(error => console.error('Error calling chatbot:', error));
+        .catch(error => {
+            console.error('Error calling chatbot:', error);
+            const errorBubble = document.createElement('div');
+            errorBubble.className = 'chat-bubble system';
+            errorBubble.textContent = 'Error al contactar con el chatbot';
+            chatContainer.appendChild(errorBubble);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        });
 
+        // Asegurar que el scroll esté al final
         chatContainer.scrollTop = chatContainer.scrollHeight;
     };
 
     recognition.onerror = function(event) {
         console.error('Error en el reconocimiento:', event.error);
-        statusMsg.textContent = '';
+        statusMsg.textContent = 'Error en el reconocimiento de voz';
+        statusMsg.style.display = 'block';
     };
 }
 
+// Evento para el botón de emergencia
 document.getElementById('emergencyBtn').addEventListener('click', function () {
     if (typeof transcribe === 'function') {
         transcribe();

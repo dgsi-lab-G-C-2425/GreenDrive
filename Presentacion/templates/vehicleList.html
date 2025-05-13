@@ -109,16 +109,15 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
         <!-- Widget centrado para chat en emergencia -->
-    <div id="emergencyWidget" class="emergency-widget" style="display: none;">
-      <div id="chatContainer" class="chat-container">
-          <!-- Aquí se mostrarán los mensajes -->
+        <div id="emergencyWidget" class="emergency-widget" style="display: none;">
+          <div id="chatContainer" class="chat-container">
+              <!-- Aquí se mostrarán los mensajes -->
+          </div>
+          <div id="statusContainer">
+              <span id="statusMsg"></span>
+              <button id="continueBtn" class="btn">Continuar Mensajes</button>
+              <button id="hangupBtn" class="btn">Colgar</button>
+          </div>
       </div>
-      <div id="statusContainer" style="padding: 10px; text-align: center; border-top: 1px solid #ccc;">
-          <span id="statusMsg"></span>
-          <br>
-          <button id="continueBtn" class="btn btn-primary" style="margin-top: 10px;">Continuar Mensajes</button>
-          <button id="hangupBtn" class="btn btn-danger" style="margin-top: 10px;">Colgar</button>
-      </div>
-    </div>
   </body>
 </html>
